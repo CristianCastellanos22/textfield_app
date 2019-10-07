@@ -7,6 +7,16 @@ class MyTextField extends StatefulWidget {
 }
 
 class _MyTextFieldState extends State<MyTextField> {
+  String inputText = "";
+  final TextEditingController controller = TextEditingController();
+
+  void onSubmitted(String value) {
+    setState(() {
+      inputText = inputText + "\n" + value;
+      controller.text = "";
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,9 +25,16 @@ class _MyTextFieldState extends State<MyTextField> {
       ),
       body: Container(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Text(""),
-
+            TextField(
+              decoration: InputDecoration(hintText: "Ingrese el texto aquí:"),
+              onSubmitted: (String value) {
+                onSubmitted(value);
+              },
+              controller: controller,
+            ),
+            Text(inputText)
           ],
         ),
       ),
